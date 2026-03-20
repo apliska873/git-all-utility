@@ -5,39 +5,29 @@ bright_green="\033[0;32m"
 reset_color="\033[0m"
 cyan="\033[0;36m"
 
-gcmd=""
-gallcmd="find * -maxdepth 0 -type d \
-		-exec echo -e ${cyan}{}${reset_color} \; \
-		-execdir git -C {} pull \; \
-		-exec echo \"\" \;"
+isHelp=false
+gcmd=$@
 
 if [[ $@ == "" ]]; then
-	echo -e "${bright_yellow}Pulling ${dark_yellow}from all repos in this directory...${reset_color}"
-	find * -maxdepth 0 -type d \
-		-exec echo -e ${cyan}{}${reset_color} \; \
-		-execdir git -C {} pull \; \
-		-exec echo "" \;
+	gcmd="pull"
 
 elif [[ $1 == "-s" ]]; then
-	echo -e "${dark_yellow}Executing ${bright_yellow}status --short${dark_yellow} on repos in this directory...${reset_color}"
-
-
-	find * -maxdepth 0 -type d \
-		-exec echo -e ${cyan}{}${reset_color} \; \
-		-execdir git -C {} status --short \; \
-		-exec echo "" \;
+	gcmd="status --short"
 
 elif [[ $1 == "-d" ]]; then
-	echo -e "${dark_yellow}Executing ${bright_yellow}diff --stat${dark_yellow} on repos in this directory...${reset_color}"
+	gcmd="diff --stat"
 
-
-	find * -maxdepth 0 -type d \
-		-exec echo -e ${cyan}{}${reset_color} \; \
-		-execdir git -C {} diff --stat \; \
-		-exec echo "" \;
-
+elif [[ $1 == "-b" ]]; then
+	gcmd="branch --show-current"
 
 elif [[ $1 == "-h" || $1 == "--help" || $1 == "-help" ]]; then
+	isHelp=true
+
+else
+	echo -e "${dark_yellow}Executing ${bright_yellow}git $@ ${dark_yellow}on repos in this directory...${reset_color}"
+fi
+
+if [ $isHelp = true ]; then
 	echo "This script is meant to assist with accomplishing git commands across all repos inside of the current directory.
 I recommend keeping this script in your home directory and aliasing it in your ~/.bashrc file.
 	ex: alias gall='~/./git-all.sh'
@@ -47,17 +37,17 @@ Options:
 	-help		||
 
 	-s	: shorthand for 'status --short'
+	-d	: shorthand for 'diff --stat'
+	-b	: shorthand for 'branch --show-current
 	"
 
 else
-	echo -e "${dark_yellow}Executing ${bright_yellow}$@${dark_yellow} on repos in this directory...${reset_color}"
-
+	echo -e "${dark_yellow}Executing ${bright_yellow}git ${gcmd} ${dark_yellow}on repos in this directory...${reset_color}"
 	find * -maxdepth 0 -type d \
 		-exec echo -e ${cyan}{}${reset_color} \; \
-		-execdir git -C {} $@ \; \
+		-execdir git -C {} ${gcmd} \; \
 		-exec echo "" \;
 fi
 
 echo -e "${bright_green}Done!${reset_color}"
 
-# running this command with 'status --short' is goated
