@@ -12,6 +12,8 @@ You can execute this script with your own git commands by calling `./git-all.sh 
 This script also supports the following options:
 * -h / --help / -help: displays help information
 * -s: shorthand for `gall status --short`
+* -S: shorthand for 'gall status'
 * -d: shorthand for `gall diff --stat`
+* -D: shorthand for 'gall diff HEAD'
 * -b: shorthand for 'branch --show-current
 
