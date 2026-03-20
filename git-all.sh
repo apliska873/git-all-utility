@@ -1,4 +1,4 @@
-#colors as variables for convenience.
+# shell colors as variables for convenience.
 dark_yellow="\033[0;33m"
 bright_yellow="\033[0;93m"
 bright_green="\033[0;32m"
@@ -14,8 +14,14 @@ if [[ $@ == "" ]]; then
 elif [[ $1 == "-s" ]]; then
 	gcmd="status --short"
 
+elif [[ $1 == "-S" ]]; then
+	gcmd="status"
+
 elif [[ $1 == "-d" ]]; then
 	gcmd="diff --stat"
+
+elif [[ $1 == "-D" ]]; then
+	gcmd="diff HEAD"
 
 elif [[ $1 == "-b" ]]; then
 	gcmd="branch --show-current"
@@ -23,8 +29,6 @@ elif [[ $1 == "-b" ]]; then
 elif [[ $1 == "-h" || $1 == "--help" || $1 == "-help" ]]; then
 	isHelp=true
 
-else
-	echo -e "${dark_yellow}Executing ${bright_yellow}git $@ ${dark_yellow}on repos in this directory...${reset_color}"
 fi
 
 if [ $isHelp = true ]; then
@@ -37,7 +41,9 @@ Options:
 	-help		||
 
 	-s	: shorthand for 'status --short'
+	-S	: shorthand for 'status'
 	-d	: shorthand for 'diff --stat'
+	-D	: shorthand for 'diff HEAD'
 	-b	: shorthand for 'branch --show-current
 	"
 
@@ -47,7 +53,7 @@ else
 		-exec echo -e ${cyan}{}${reset_color} \; \
 		-execdir git -C {} ${gcmd} \; \
 		-exec echo "" \;
-fi
 
-echo -e "${bright_green}Done!${reset_color}"
+	echo -e "${bright_green}Done!${reset_color}"
+fi
 
