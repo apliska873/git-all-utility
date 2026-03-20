@@ -10,10 +10,10 @@ By default, calling this script with no arguments executes "git pull" on all of 
 You can execute this script with your own git commands by calling `./git-all.sh <your-command>`.
 
 This script also supports the following options:
-* -h / --help / -help: displays help information
-* -s: shorthand for `gall status --short`
-* -S: shorthand for 'gall status'
-* -d: shorthand for `gall diff --stat`
-* -D: shorthand for 'gall diff HEAD'
-* -b: shorthand for 'branch --show-current
+* __-h__ / __--help__ / __-help__: displays help information
+* __-s__: shorthand for `gall status --short`
+* __-S__: shorthand for `gall status`
+* __-d__: shorthand for `gall diff --stat`
+* __-D__: shorthand for `gall diff HEAD`
+* __-b__: shorthand for `branch --show-current`
 
